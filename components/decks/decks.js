@@ -3,6 +3,7 @@ import {
   FlatList,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
   } from 'react-native';
 
@@ -25,21 +26,23 @@ export default class Decks extends React.Component {
       <View style={styles.container}>
         <FlatList
           data={this.state.dataSource}
-          renderItem={({item}) => <RowData deck={item} />}
-          keyExtractor={(item, index) => item.title}
+          renderItem={({item}) =>
+            <RowData deck={item} pressed={() =>
+              this.props.navigation.navigate('Deck', {deck: item})}/>}
+          keyExtractor={item => item.title}
         />
       </View>
     );
   }
 }
 
-function RowData({deck}) {
-  return (<View style={styles.rowData}>
+function RowData({deck, pressed}) {
+  return (<TouchableOpacity style={styles.rowData} onPress={pressed}>
     <View style={styles.rowData2}>
       <Text style={styles.deck}>{deck.title}</Text>
       <Text style={styles.cards}>{deck.cards} cards</Text>
     </View>
-  </View>);
+  </TouchableOpacity>);
 }
 
 const styles = StyleSheet.create({

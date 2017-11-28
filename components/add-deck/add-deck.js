@@ -16,7 +16,7 @@ export default class AddDeck extends React.Component {
     return (<KeyboardAvoidingView behavior="padding" style={styles.container}>
       <Text style={styles.question}>What is the title of your new deck?</Text>
       <View style={styles.vInput}>
-      <TextInput placeholder='Deck Title' style={styles.input} />
+        <TextInput placeholder='Deck Title' style={styles.input} />
       </View>
       <TouchableOpacity onPress={this.submit} style={styles.button}>
         <Text>Submit</Text>

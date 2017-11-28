@@ -18,16 +18,16 @@ function Statusbar({backgroundColor, ...props}) {
 }
 
 const Tabs = TabNavigator({
-  AddDeck: {
-    screen: AddDeck,
-    navigationOptions: {
-      tabBarLabel: 'Add Deck',
-    }
-  },
   Decks: {
     screen: Decks,
     navigationOptions: {
       tabBarLabel: 'Decks',
+    }
+  },
+  AddDeck: {
+    screen: AddDeck,
+    navigationOptions: {
+      tabBarLabel: 'Add Deck',
     }
   },
 }, {

@@ -15,6 +15,13 @@ To run the application:
     - `yarn` to install all dependencies,
     - `yarn start android` to run the application
 
+Sometimes the above did not work and the following commands solved the issue:
+
+  - `rm -rf node_modules`
+  - `rm -rf .expo`
+  - `npm install`
+  - `yarn start`
+
 The application should meet the following specification.
 
   - Allow users to create a deck which can hold an unlimited number of cards.

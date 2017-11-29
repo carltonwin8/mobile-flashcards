@@ -52,9 +52,6 @@ const Navigator = StackNavigator({
   },
   AddCard: {
     screen: AddCard,
-    navigationOptions: {
-      title: 'Add Card',
-    },
   },
 });
 

@@ -9,6 +9,9 @@ import {
   } from 'react-native';
 
 export default class AddCard extends React.Component {
+  static navigationOptions = ({ navigation }) => {
+    return { title: `Add Card To: ${navigation.state.params.deck.title}` };
+  };
   submit = () => {
     console.log('submitted');
   }

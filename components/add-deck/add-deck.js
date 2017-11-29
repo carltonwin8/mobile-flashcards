@@ -1,10 +1,10 @@
 import React from 'react';
 import {
   KeyboardAvoidingView,
-  TouchableOpacity,
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
   } from 'react-native';
 

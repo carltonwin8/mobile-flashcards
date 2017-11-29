@@ -10,6 +10,7 @@ import { Constants } from 'expo';
 import Decks from './components/decks/decks.js';
 import AddDeck from './components/add-deck/add-deck.js';
 import Deck from './components/deck/deck.js';
+import AddCard from './components/add-card/add-card.js';
 
 function Statusbar({backgroundColor, ...props}) {
   return (<View style={{backgroundColor, height: Constants.statusBarHeight}} >
@@ -48,6 +49,12 @@ const Navigator = StackNavigator({
   },
   Deck: {
     screen: Deck,
+  },
+  AddCard: {
+    screen: AddCard,
+    navigationOptions: {
+      title: 'Add Card',
+    },
   },
 });
 

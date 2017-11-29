@@ -12,7 +12,8 @@ export default class Deck extends React.Component {
   };
 
   render() {
-    const { title, cards } = this.props.navigation.state.params.deck;
+    const deck = this.props.navigation.state.params.deck;
+    const { title, cards } = deck;
     return (
       <View style={styles.container}>
         <View style={styles.text}>
@@ -20,7 +21,8 @@ export default class Deck extends React.Component {
           <Text style={styles.cards}t>{cards} cards</Text>
         </View>
         <View>
-          <TouchableOpacity style={styles.add}>
+          <TouchableOpacity style={styles.add} onPress={() =>
+            this.props.navigation.navigate('AddCard', {deck: deck})}>
             <Text style={styles.buttonText}>Add Card</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.quit}>

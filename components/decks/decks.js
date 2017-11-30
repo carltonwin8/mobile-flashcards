@@ -8,17 +8,24 @@ import {
   } from 'react-native';
 
 export default class Decks extends React.Component {
+  questions = [{
+    question: 'What is React?',
+    answer: 'A library for managing user interfaces'
+  }, {
+    question: 'Where do you make Ajax requests in React?',
+    answer: 'The componentDidMount lifecycle event'
+  }];
   state = {
     dataSource: [
-      { title: 'deck 1', cards: '3' },
-      { title: 'deck 2', cards: '8' },
-      { title: 'deck 3', cards: '23' },
-      { title: 'deck 4', cards: '3' },
-      { title: 'deck 5', cards: '8' },
-      { title: 'deck 6', cards: '23' },
-      { title: 'deck 7', cards: '3' },
-      { title: 'deck 8', cards: '8' },
-      { title: 'deck 9', cards: '23' },
+      { title: 'deck 1', cards: '3', questions: this.questions },
+      { title: 'deck 2', cards: '8', questions: this.questions },
+      { title: 'deck 3', cards: '23', questions: this.questions },
+      { title: 'deck 4', cards: '3', questions: this.questions },
+      { title: 'deck 5', cards: '8', questions: this.questions },
+      { title: 'deck 6', cards: '23', questions: this.questions },
+      { title: 'deck 7', cards: '3', questions: this.questions },
+      { title: 'deck 8', cards: '8', questions: this.questions },
+      { title: 'deck 9', cards: '23', questions: this.questions },
     ],
   }
   render() {

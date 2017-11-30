@@ -25,7 +25,8 @@ export default class Deck extends React.Component {
             this.props.navigation.navigate('AddCard', {deck: deck})}>
             <Text style={styles.buttonText}>Add Card</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.quit}>
+          <TouchableOpacity style={styles.quit} onPress={() =>
+            this.props.navigation.navigate('Quiz', {deck: deck})}>
             <Text style={styles.buttonText}>Start Quiz</Text>
           </TouchableOpacity>
         </View>

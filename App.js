@@ -69,7 +69,7 @@ export default class App extends React.Component {
       <Provider store={createStore(reducers)}>
         <View style={{flex: 1}}>
           <Statusbar backgroundColor='aqua' barStyle='light-content' />
-          <TestAsync />
+          {/* <TestAsync /> */}
           <Navigator />
         </View>
       </Provider>

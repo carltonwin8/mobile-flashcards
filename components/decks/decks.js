@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { connect } from 'react-redux';
+
 import {
   addCardToDeck,
   getDeck,
@@ -13,32 +15,12 @@ import {
   saveDeckTitle,
 } from '../../utils/helpers';
 
-export default class Decks extends React.Component {
-  questions = [{
-    question: 'What is React?',
-    answer: 'A library for managing user interfaces'
-  }, {
-    question: 'Where do you make Ajax requests in React?',
-    answer: 'The componentDidMount lifecycle event'
-  }];
-  state = {
-    dataSource: [
-      { title: 'deck 1', cards: '3', questions: this.questions },
-      { title: 'deck 2', cards: '8', questions: this.questions },
-/*      { title: 'deck 3', cards: '23', questions: this.questions },
-      { title: 'deck 4', cards: '3', questions: this.questions },
-      { title: 'deck 5', cards: '8', questions: this.questions },
-      { title: 'deck 6', cards: '23', questions: this.questions },
-      { title: 'deck 7', cards: '3', questions: this.questions },
-      { title: 'deck 8', cards: '8', questions: this.questions },
-      { title: 'deck 9', cards: '23', questions: this.questions }, */
-    ],
-  }
+class Decks extends React.Component {
   render() {
     return (
       <View style={styles.container}>
         <FlatList
-          data={this.state.dataSource}
+          data={this.props.dataSource}
           renderItem={({item}) =>
             <RowData deck={item} pressed={() =>
               this.props.navigation.navigate('Deck', {deck: item})}/>}
@@ -48,6 +30,12 @@ export default class Decks extends React.Component {
     );
   }
 }
+
+const mapStateToProps = ({dataSource}) => {
+  console.log(dataSource);
+  return {dataSource};
+}
+export default connect(mapStateToProps)(Decks);
 
 function RowData({deck, pressed}) {
   return (<TouchableOpacity style={styles.rowData} onPress={pressed}>

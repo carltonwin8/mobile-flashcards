@@ -3,7 +3,7 @@ import {
   StatusBar,
   Text,
   View,
-  } from 'react-native';
+} from 'react-native';
 import { StackNavigator, TabNavigator } from 'react-navigation';
 import { Constants } from 'expo';
 
@@ -12,6 +12,7 @@ import AddDeck from './components/add-deck/add-deck.js';
 import Deck from './components/deck/deck.js';
 import AddCard from './components/add-card/add-card.js';
 import Quiz from './components/quiz/quiz.js';
+import TestAsync from './tests/testasync.js';
 
 function Statusbar({backgroundColor, ...props}) {
   return (<View style={{backgroundColor, height: Constants.statusBarHeight}} >
@@ -64,6 +65,7 @@ export default class App extends React.Component {
     return (
       <View style={{flex: 1}}>
         <Statusbar backgroundColor='aqua' barStyle='light-content' />
+        <TestAsync />
         <Navigator />
       </View>
     );

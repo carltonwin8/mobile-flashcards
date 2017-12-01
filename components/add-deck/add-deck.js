@@ -9,17 +9,26 @@ import {
   } from 'react-native';
 
 export default class AddDeck extends React.Component {
-  submit = () => {
-    console.log('submitted');
+  state = {
+    title: "",
+  }
+  addDeck = () => {
+    console.log(this.state.title);
+    this.props.navigation.goBack();
   }
   render() {
     return (<KeyboardAvoidingView behavior="padding" style={styles.container}>
       <Text style={styles.question}>What is the title of your new deck?</Text>
       <View style={styles.vInput}>
-        <TextInput placeholder='Deck Title' style={styles.input} />
+        <TextInput
+          placeholder='Deck Title'
+          style={styles.input}
+          value={this.title}
+          onChangeText={title => this.setState({title})}
+        />
       </View>
-      <TouchableOpacity onPress={this.submit} style={styles.button}>
-        <Text>Submit</Text>
+      <TouchableOpacity onPress={this.addDeck} style={styles.button}>
+        <Text style={styles.buttonText}>Submit</Text>
       </TouchableOpacity>
     </KeyboardAvoidingView>);
   }
@@ -48,10 +57,14 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   button: {
-    backgroundColor: 'aqua',
+    backgroundColor: 'black',
     borderRadius: 6,
     padding: 5,
     paddingLeft: 25,
     paddingRight: 25,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 20,
   },
 });

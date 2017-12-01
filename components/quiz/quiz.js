@@ -45,11 +45,7 @@ export default class Quiz extends React.Component {
     const { presentQuestion, totalQuestions, viewingQuestion, finishedQuestions, score } = this.state;
     return (
       <View style={styles.container}>
-        <View>
-          <Text>
-            Question: {presentQuestion + 1}/{totalQuestions}
-          </Text>
-        </View>
+        <Text>Question: {presentQuestion + 1}/{totalQuestions}</Text>
         <View style={styles.q}>
           <Text style={styles.qtext}>
             { viewingQuestion ? question.question : question.answer }
@@ -71,11 +67,8 @@ export default class Quiz extends React.Component {
                 </TouchableOpacity>
               </View>
         }
-        <View>
-          <Text>
-            Score: {score}/{totalQuestions}
-          </Text>
-        </View>
+
+        <Text>Score: {score}/{totalQuestions}</Text>
       </View>
     );
   }

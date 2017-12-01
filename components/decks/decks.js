@@ -5,7 +5,13 @@ import {
   Text,
   TouchableOpacity,
   View,
-  } from 'react-native';
+} from 'react-native';
+import {
+  addCardToDeck,
+  getDeck,
+  getDecks,
+  saveDeckTitle,
+} from '../../utils/helpers';
 
 export default class Decks extends React.Component {
   questions = [{
@@ -19,13 +25,13 @@ export default class Decks extends React.Component {
     dataSource: [
       { title: 'deck 1', cards: '3', questions: this.questions },
       { title: 'deck 2', cards: '8', questions: this.questions },
-      { title: 'deck 3', cards: '23', questions: this.questions },
+/*      { title: 'deck 3', cards: '23', questions: this.questions },
       { title: 'deck 4', cards: '3', questions: this.questions },
       { title: 'deck 5', cards: '8', questions: this.questions },
       { title: 'deck 6', cards: '23', questions: this.questions },
       { title: 'deck 7', cards: '3', questions: this.questions },
       { title: 'deck 8', cards: '8', questions: this.questions },
-      { title: 'deck 9', cards: '23', questions: this.questions },
+      { title: 'deck 9', cards: '23', questions: this.questions }, */
     ],
   }
   render() {

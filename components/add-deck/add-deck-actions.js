@@ -1,3 +1,3 @@
-import { ADD_DECK, } from './actionTypes';
+import { ADD_DECK, } from './add-deck-actionTypes';
 
-export function getDecks(title) { return { type: 'ADD_DECK', {title} } }
+export function addDeck(title) { return { type: 'ADD_DECK', title: title } }

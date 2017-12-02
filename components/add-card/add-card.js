@@ -6,22 +6,54 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  } from 'react-native';
+} from 'react-native';
+import { connect } from 'react-redux';
 
-export default class AddCard extends React.Component {
-  static navigationOptions = ({ navigation }) => {
-    return { title: `Add Card To: ${navigation.state.params.deck.title}` };
-  };
-  submit = () => {
-    console.log('submitted');
+import * as helpers from '../../utils/helpers';
+import * as addCardActions from './add-card-actions';
+
+class AddCard extends React.Component {
+  state = {
+    title: "",
+    card: {
+    question: "",
+      answer: "",
+    }
   }
+  static navigationOptions = ({ navigation }) => {
+    const { title } = navigation.state.params.deck;
+    return { title: `Add Card To Deck: ${title}` };
+  }
+  submit = () => {
+    const { title, card } = this.state;
+    helpers.addCardToDeck(title, card).then(() => {
+      this.props.addCard(title, card);
+      this.props.navigation.goBack();
+    }).catch (e => alert(e));
+  }
+  componentDidMount = () => this.setState(s =>
+    ({...s, title: this.props.navigation.state.params.deck.title}));
+
   render() {
+    const { question, answer } = this.state.card;
     return (<KeyboardAvoidingView behavior="padding" style={styles.container}>
       <View style={styles.vInput}>
-        <TextInput placeholder='Question' style={styles.input} />
+        <TextInput
+          placeholder='Question'
+          style={styles.input}
+          value={question}
+          onChangeText={question => this.setState(s =>
+            ({...s, card: {question : question, answer: s.card.answer}}))}
+        />
       </View>
       <View style={styles.vInput}>
-        <TextInput placeholder='Response' style={styles.input} />
+        <TextInput
+          placeholder='Response'
+          style={styles.input}
+          value={answer}
+          onChangeText={answer => this.setState(s =>
+            ({...s, card: {question: s.card.question, answer: answer}}))}
+        />
       </View>
       <TouchableOpacity onPress={this.submit} style={styles.button}>
         <Text>Submit</Text>
@@ -29,6 +61,9 @@ export default class AddCard extends React.Component {
     </KeyboardAvoidingView>);
   }
 }
+
+export default connect(null,{...addCardActions})(AddCard);
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

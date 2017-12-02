@@ -34,6 +34,7 @@ export default class Quiz extends React.Component {
         presentQuestion: nextQuestion,
         finishedQuestions: finished,
         score: s.score + val,
+        viewingQuestion: true,
       };
     });
   }

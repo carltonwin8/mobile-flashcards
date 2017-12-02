@@ -6,15 +6,24 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  } from 'react-native';
+} from 'react-native';
+import { connect } from 'react-redux';
 
-export default class AddDeck extends React.Component {
+import * as helpers from '../../utils/helpers';
+import * as addDeckActions from './add-deck-actions';
+
+class AddDeck extends React.Component {
   state = {
     title: "",
   }
   addDeck = () => {
-    console.log(this.state.title);
-    this.props.navigation.goBack();
+    const { title } = this.state;
+    helpers.saveDeckTitle(title)
+      .then(() => {
+        this.props.addDeck(title);
+        this.props.navigation.goBack();
+      })
+      .catch(e => alert(e));
   }
   render() {
     return (<KeyboardAvoidingView behavior="padding" style={styles.container}>
@@ -33,6 +42,9 @@ export default class AddDeck extends React.Component {
     </KeyboardAvoidingView>);
   }
 }
+
+export default connect(null,{...addDeckActions})(AddDeck);
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

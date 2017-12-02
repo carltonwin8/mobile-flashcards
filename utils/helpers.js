@@ -27,8 +27,8 @@ export function saveDeckTitle(title) {
       }
       if(data.dataSource.filter(d => d.title === title).length !== 0)
         return reject('Title Already Used');
-      data.dataSource.push({title});
-      return saveDecks(data);
+      const dataNew = {dataSource: data.dataSource.concat({title})};
+      return resolve(saveDecks(dataNew));
     });
   });
 }
@@ -47,21 +47,17 @@ export function addCardToDeck(title, question) {
       if (data == null) return reject("The deck is empty. Can't add the question.");
       if(data.dataSource.filter(d => d.title === title).length === 0)
         return reject("Title not found. Can't add the question.");
-      data.dataSource.map(d => {
+      const ds = data.dataSource.map(d => {
         if (d.title === title) {
-          if (!d.questions) d.questions = [{...question}];
+          if (!d.questions) return d.questions = [{...question}];
           else {
-            console.log(d.questions.filter(q => q.question === question.question).length);
-            if (d.questions.filter(q => {
-              console.log(`${q.question} ${question.question} ${q.question === question.question}`);
-              return q.question === question.question
-            }).length !== 0)
-              return reject('Invalid. Question already present');
-            d.questions.push({...question});
+            const q = d.questions.filter(q => q.question === question.question);
+            if (q.length !== 0) return reject('Invalid. Question already present');
+             return d.questions.concat(question);
           }
-        }
+        } else return d;
       });
-      return saveDecks(data);
+      return resolve(saveDecks(ds));
     });
   });
 }

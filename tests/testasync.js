@@ -6,20 +6,16 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {
-  addCardToDeck,
-  getDeck,
-  getDecks,
-  removeDecks,
-  saveDecks,
-  saveDeckTitle,
-} from '../utils/helpers';
+import { connect } from 'react-redux';
+
+import * as helpers from '../utils/helpers';
+import * as decksActions from '../components/decks/decks-actions';
 
 /**
  * UI for interactively developing/testing the async deck storage/retrival.
  * Not used in the released application.
  */
-export default class TestAsync extends React.Component {
+class TestAsync extends React.Component {
   state = {
     text: null,
     title: null,
@@ -38,33 +34,40 @@ export default class TestAsync extends React.Component {
         { title: 'deck 2', cards: '8', questions: questions },
       ],
     }
-    saveDecks(data);
+    helpers.saveDecks(data);
   }
   getData() {
-    getDecks().then(data => {console.log(data); });
+    helpers.getDecks().then(data => {console.log(data); });
   }
   saveDeckTitle(title) {
-    saveDeckTitle(title).then(this.setState({title})).catch(e => alert(e));
+    helpers.saveDeckTitle(title).then(this.setState({title})).catch(e => alert(e));
   }
   addCardToDeck(title, question) {
     const q = { question: question, answer: question };
-    addCardToDeck(title, q).catch(e => alert(e));
+    helpers.addCardToDeck(title, q).catch(e => alert(e));
   }
   removeDeck() {
-    removeDecks();
+    console.log(this);
+    console.log(this.props);sdfaasdf
+    helpers.removeDecks().then(data => {
+      console.log(data);
+      console.log(this.props);
+      this.props.clearDecks();
+    });
   }
   render() {
     const {text, title} = this.state;
     return (
       <View style={styles.container}>
-        <TouchableOpacity onPress={this.removeDeck}>
+        <TouchableOpacity onPress={() =>
+          {alert('going to remove'); this.removeDeck()}}>
           <Text>Clear</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={this.saveData}>
-          <Text>S All</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={this.getData}>
           <Text>G All</Text>
+        </TouchableOpacity>
+        {/* <TouchableOpacity onPress={this.saveData}>
+          <Text>S All</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => this.saveDeckTitle(text)}>
           <Text>S Title</Text>
@@ -79,11 +82,14 @@ export default class TestAsync extends React.Component {
             value={this.state.text || ""}
             onChangeText={text => this.setState({text})}
           />
-        </View>
+        </View> */}
       </View>
     );
   }
 }
+
+const mapStateToProps = ({dataSource}) => ({dataSource});
+export default connect(mapStateToProps, {...decksActions})(TestAsync);
 
 const styles = StyleSheet.create({
   container: {

@@ -8,40 +8,48 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import {
-  addCardToDeck,
-  getDeck,
-  getDecks,
-  saveDeckTitle,
-} from '../../utils/helpers';
+import * as helpers from '../../utils/helpers';
+import * as decksActions from './decks-actions';
 
 class Decks extends React.Component {
+  componentDidMount = () => helpers.getDecks().then(data => data && this.props.addDecks(data));
   render() {
-    return (
-      <View style={styles.container}>
-        <FlatList
-          data={this.props.dataSource}
-          renderItem={({item}) =>
-            <RowData deck={item} pressed={() =>
-              this.props.navigation.navigate('Deck', {deck: item})}/>}
-          keyExtractor={item => item.title}
-        />
-      </View>
-    );
+    if (this.props.dataSource && this.props.dataSource.length > 0) {
+      return (
+        <View style={styles.container}>
+          <FlatList
+            data={this.props.dataSource}
+            renderItem={({item}) =>
+              <RowData deck={item} pressed={() =>
+                this.props.navigation.navigate('Deck', {deck: item})}/>}
+                keyExtractor={(item, index) => index}
+            />
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.empty}>
+          <Text style={styles.emptyText}>
+            No decks available at present.
+          </Text>
+          <Text style={styles.emptyText}>
+            Use the "ADD DECK" tab to add a deck.
+          </Text>
+        </View>
+      );
+    }
+
   }
 }
 
-const mapStateToProps = ({dataSource}) => {
-  console.log(dataSource);
-  return {dataSource};
-}
-export default connect(mapStateToProps)(Decks);
+const mapStateToProps = ({dataSource}) => ({dataSource});
+export default connect(mapStateToProps, {...decksActions})(Decks);
 
 function RowData({deck, pressed}) {
   return (<TouchableOpacity style={styles.rowData} onPress={pressed}>
     <View style={styles.rowData2}>
       <Text style={styles.deck}>{deck.title}</Text>
-      <Text style={styles.cards}>{deck.cards} cards</Text>
+      <Text style={styles.cards}>{deck.questions ? deck.questions.length : 0} cards</Text>
     </View>
   </TouchableOpacity>);
 }
@@ -49,6 +57,15 @@ function RowData({deck, pressed}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  empty: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  emptyText: {
+    fontSize: 24,
+    textAlign: 'center',
   },
   rowData: {
     flex: 1,

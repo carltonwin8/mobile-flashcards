@@ -11,23 +11,28 @@ export default class Deck extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return { title: `${navigation.state.params.deck.title}` };
   };
-
+  quiz =() => {
+    const { deck } = this.props.navigation.state.params;
+    const { questions } = deck;
+    if (questions && questions.length > 0)
+      this.props.navigation.navigate('Quiz', {deck: deck});
+    else alert("Can't run quiz due to no cards. Please a Add Card.")
+  }
   render() {
-    const deck = this.props.navigation.state.params.deck;
-    const { title, cards } = deck;
+    const { deck } = this.props.navigation.state.params;
+    const { title, questions } = deck;
     return (
       <KeyboardAvoidingView style={styles.container}>
         <View style={styles.text}>
           <Text style={styles.deck}>{title}</Text>
-          <Text style={styles.cards}t>{cards} cards</Text>
+          <Text style={styles.cards}>{questions ? questions.length : 0} cards</Text>
         </View>
         <View>
           <TouchableOpacity style={styles.add} onPress={() =>
             this.props.navigation.navigate('AddCard', {deck: deck})}>
             <Text style={styles.buttonText}>Add Card</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.quit} onPress={() =>
-            this.props.navigation.navigate('Quiz', {deck: deck})}>
+          <TouchableOpacity style={styles.quit} onPress={this.quiz}>
             <Text style={styles.buttonText}>Start Quiz</Text>
           </TouchableOpacity>
         </View>

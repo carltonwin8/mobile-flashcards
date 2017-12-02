@@ -7,19 +7,22 @@ const initialState = { dataSource: [ ], };
 export default function entries(state=initialState, action) {
   switch (action.type) {
     case CLEAR_DECKS: return initialState;
-    case ADD_DECK: return {...state,
-      dataSource: state.dataSource.concat({title: action.title, questions: []})}
-    case ADD_DECKS: return {...state, dataSource: action.decks.dataSource}
+    case ADD_DECK:
+      const deck = {title: action.title, questons: []};
+      const ds = state.dataSource ? state.dataSource.concat(deck) : [deck];
+      return {...state, dataSource: ds}
+    case ADD_DECKS:
+      const ds1 = (action.decks && action.decks.dataSource)
+        ? action.decks.dataSource
+        : [];
+      return {...state, dataSource: ds1}
     case ADD_CARD:
-      console.log(action.card);
-      console.log(action.title);
-      console.log(state.dataSource);
-      const dataSource = state.dataSource.map(deck => deck.title == action.title ?
-          {...deck, questions : deck.questions.concat(action.card) } : deck);
-      console.log(dataSource);
-      return {...state,
-        dataSource: state.dataSource.map(deck => deck.title == action.title ?
-          deck.questions.concat(action.card) : deck) }
+      const dataSource = state.dataSource.map(deck => {
+        debugger;
+        if (deck.title !== action.title) return deck;
+        return {...deck, questions : deck.questions.concat(action.card)};
+      });
+      return {...state, dataSource: dataSource }
     default: return state;
   }
 }

@@ -5,7 +5,9 @@ import { Notifications, Permissions } from 'expo';
 const FLASHCARD_STORAGE_KEY = 'mobile-flashcards:notifications';
 
 export function getDecks() {
-  return AsyncStorage.getItem(FLASHCARD_STORAGE_KEY).then(JSON.parse)
+  return AsyncStorage.getItem(FLASHCARD_STORAGE_KEY).then(data => {
+    if(data) return JSON.parse(data); else return {};
+  });
 }
 
 export function getDeck(id) {
@@ -20,15 +22,11 @@ export function saveDeckTitle(title) {
   return new Promise(function(resolve, reject){
     if (!title || title.length === 0) return reject('Invalid Empty Title');
     getDecks().then(data => {
-      if (data == null) {
-        AsyncStorage.setItem(FLASHCARD_STORAGE_KEY,
-          JSON.stringify({ "dataSource" : [{title}]}));
-        return resolve();
-      }
-      if(data.dataSource.filter(d => d.title === title).length !== 0)
-        return reject('Title Already Used');
-      const dataNew = {dataSource: data.dataSource.concat({title})};
-      return resolve(saveDecks(dataNew));
+      const deck = {title: title, questions: []};
+      if (!data || !data.dataSource) return resolve(saveDecks({ "dataSource" : [deck]}));
+      const tmatch = data.dataSource.filter(d => d.title === title);
+      if (tmatch.length !== 0) return reject('Title Already Used');
+      return resolve(saveDecks({dataSource: data.dataSource.concat(deck)}));
     });
   });
 }
@@ -44,20 +42,21 @@ export function addCardToDeck(title, question) {
     if (!question.answer || question.answer.length === 0)
       return reject('Invalid. No Answer Provided');
     getDecks().then(data => {
-      if (data == null) return reject("The deck is empty. Can't add the question.");
-      if(data.dataSource.filter(d => d.title === title).length === 0)
-        return reject("Title not found. Can't add the question.");
+      if (!data || !data.dataSource) return reject("The deck is empty. Can't add the question.");
+      let foundTitle = data.dataSource.filter(d => d.title === title);
+      console.log(foundTitle);
+      if (foundTitle.length === 0) return reject("Title not found. Can't add the question.");
       const ds = data.dataSource.map(d => {
         if (d.title === title) {
-          if (!d.questions) return d.questions = [{...question}];
+          if (!d.questions) return {...d, questions: [question]};
           else {
             const q = d.questions.filter(q => q.question === question.question);
             if (q.length !== 0) return reject('Invalid. Question already present');
-             return d.questions.concat(question);
+             return {...d, questions: d.questions.concat(question)};
           }
         } else return d;
       });
-      return resolve(saveDecks(ds));
+      return resolve(saveDecks({dataSource: ds}));
     });
   });
 }

@@ -36,9 +36,7 @@ class TestAsync extends React.Component {
     }
     helpers.saveDecks(data);
   }
-  getData() {
-    helpers.getDecks().then(data => {console.log(data); });
-  }
+  getData() { helpers.getDecks().then(data => {console.log(data); }) }
   saveDeckTitle(title) {
     helpers.saveDeckTitle(title).then(this.setState({title})).catch(e => alert(e));
   }
@@ -46,21 +44,12 @@ class TestAsync extends React.Component {
     const q = { question: question, answer: question };
     helpers.addCardToDeck(title, q).catch(e => alert(e));
   }
-  removeDeck() {
-    console.log(this);
-    console.log(this.props);sdfaasdf
-    helpers.removeDecks().then(data => {
-      console.log(data);
-      console.log(this.props);
-      this.props.clearDecks();
-    });
-  }
+  removeDeck = () => helpers.removeDecks().then(this.props.clearDecks);
   render() {
     const {text, title} = this.state;
     return (
       <View style={styles.container}>
-        <TouchableOpacity onPress={() =>
-          {alert('going to remove'); this.removeDeck()}}>
+        <TouchableOpacity onPress={this.removeDeck}>
           <Text>Clear</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={this.getData}>

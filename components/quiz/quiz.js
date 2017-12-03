@@ -39,7 +39,7 @@ export default class Quiz extends React.Component {
     });
   }
 
-  render() {
+  render = () => {
     const deck = this.props.navigation.state.params.deck;
     const { title, cards, questions } = deck;
     const question = questions[this.state.presentQuestion];

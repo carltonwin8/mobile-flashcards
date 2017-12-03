@@ -5,22 +5,24 @@ import {
   Text,
   TouchableOpacity,
   View,
-  } from 'react-native';
+} from 'react-native';
+import { connect } from 'react-redux';
 
-export default class Deck extends React.Component {
+class Deck extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return { title: `${navigation.state.params.deck.title}` };
   };
-  quiz =() => {
+  quiz = () => {
     const { deck } = this.props.navigation.state.params;
     const { questions } = deck;
     if (questions && questions.length > 0)
       this.props.navigation.navigate('Quiz', {deck: deck});
     else alert("Can't run quiz due to no cards. Please a Add Card.")
   }
-  render() {
-    const { deck } = this.props.navigation.state.params;
-    const { title, questions } = deck;
+  render = () => {
+    const { title } = this.props.navigation.state.params.deck;
+    const deck = this.props.dataSource.filter(d => d.title === title);
+    const { questions } = deck[0];
     return (
       <KeyboardAvoidingView style={styles.container}>
         <View style={styles.text}>
@@ -29,7 +31,7 @@ export default class Deck extends React.Component {
         </View>
         <View>
           <TouchableOpacity style={styles.add} onPress={() =>
-            this.props.navigation.navigate('AddCard', {deck: deck})}>
+            this.props.navigation.navigate('AddCard', {title: title})}>
             <Text style={styles.buttonText}>Add Card</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.quit} onPress={this.quiz}>
@@ -40,6 +42,10 @@ export default class Deck extends React.Component {
     );
   }
 }
+
+const mapStateToProps = ({dataSource}) => ({dataSource});
+export default connect(mapStateToProps)(Deck);
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

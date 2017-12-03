@@ -64,7 +64,7 @@ const Navigator = StackNavigator({
 });
 
 export default class App extends React.Component {
-  render() {
+  render = () => {
     return (
       <Provider store={createStore(reducers)}>
         <View style={{flex: 1}}>

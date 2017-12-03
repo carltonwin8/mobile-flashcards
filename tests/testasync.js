@@ -45,7 +45,7 @@ class TestAsync extends React.Component {
     helpers.addCardToDeck(title, q).catch(e => alert(e));
   }
   removeDeck = () => helpers.removeDecks().then(this.props.clearDecks);
-  render() {
+  render = () => {
     const {text, title} = this.state;
     return (
       <View style={styles.container}>

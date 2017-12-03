@@ -17,12 +17,18 @@ export default function entries(state=initialState, action) {
         : [];
       return {...state, dataSource: ds1}
     case ADD_CARD:
-      const dataSource = state.dataSource.map(deck => {
-        debugger;
+      console.log('add card');
+      const ds3 = state.dataSource.map(deck => {
         if (deck.title !== action.title) return deck;
-        return {...deck, questions : deck.questions.concat(action.card)};
+        console.log(deck);
+        console.log(action);
+        debugger;
+        const questions = deck.questions.concat(action.card);
+        console.log(questions);
+        return {...deck, questions : questions};
       });
-      return {...state, dataSource: dataSource }
+      console.log(ds3);
+      return {...state, dataSource: ds3 }
     default: return state;
   }
 }

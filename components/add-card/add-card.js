@@ -21,7 +21,7 @@ class AddCard extends React.Component {
     }
   }
   static navigationOptions = ({ navigation }) => {
-    const { title } = navigation.state.params.deck;
+    const { title } = navigation.state.params;
     return { title: `Add Card To Deck: ${title}` };
   }
   submit = () => {
@@ -32,9 +32,9 @@ class AddCard extends React.Component {
     }).catch (e => alert(e));
   }
   componentDidMount = () => this.setState(s =>
-    ({...s, title: this.props.navigation.state.params.deck.title}));
+    ({...s, title: this.props.navigation.state.params.title}));
 
-  render() {
+  render = () => {
     const { question, answer } = this.state.card;
     return (<KeyboardAvoidingView behavior="padding" style={styles.container}>
       <View style={styles.vInput}>

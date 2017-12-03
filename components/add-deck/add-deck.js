@@ -25,7 +25,7 @@ class AddDeck extends React.Component {
       })
       .catch(e => alert(e));
   }
-  render() {
+  render = () => {
     return (<KeyboardAvoidingView behavior="padding" style={styles.container}>
       <Text style={styles.question}>What is the title of your new deck?</Text>
       <View style={styles.vInput}>

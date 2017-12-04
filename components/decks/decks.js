@@ -12,9 +12,8 @@ import * as helpers from '../../utils/helpers';
 import * as decksActions from './decks-actions';
 
 class Decks extends React.Component {
-  componentDidMount = () => {
-    helpers.getDecks().then(data => data && this.props.addDecks(data));
-  }
+  componentDidMount = () =>
+    helpers.getDecks().then(this.props.addDecks).catch (e => alert(e));
   render = () => {
     if (this.props.dataSource && this.props.dataSource.length > 0) {
       return (

@@ -13,7 +13,9 @@ class Deck extends React.Component {
     return { title: `${navigation.state.params.deck.title}` };
   };
   quiz = () => {
-    const { deck } = this.props.navigation.state.params;
+    const decks = this.props.dataSource;
+    const { title } = this.props.navigation.state.params.deck;
+    const deck = decks.filter(d => d.title === title)[0];
     const { questions } = deck;
     if (questions && questions.length > 0)
       this.props.navigation.navigate('Quiz', {deck: deck});

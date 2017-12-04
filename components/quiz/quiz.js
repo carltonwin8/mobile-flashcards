@@ -22,7 +22,7 @@ export default class Quiz extends React.Component {
   componentDidMount = () => {
     this.setState(s => ({...s, totalQuestions:
       this.props.navigation.state.params.deck.questions.length }))
-  }
+}
   switchQnA = () => this.setState(s => ({...s, viewingQuestion: !s.viewingQuestion}));
   score = (val) => {
     this.setState(s => {
@@ -41,7 +41,7 @@ export default class Quiz extends React.Component {
 
   render = () => {
     const deck = this.props.navigation.state.params.deck;
-    const { title, cards, questions } = deck;
+    const { title, questions } = deck;
     const question = questions[this.state.presentQuestion];
     const { presentQuestion, totalQuestions, viewingQuestion, finishedQuestions, score } = this.state;
     return (

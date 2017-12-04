@@ -14,36 +14,47 @@ import * as addCardActions from './add-card-actions';
 
 class AddCard extends React.Component {
   state = {
-    title: "",
-    card: {
     question: "",
-      answer: "",
-    }
+    answer: "",
   }
   static navigationOptions = ({ navigation }) => {
     const { title } = navigation.state.params;
     return { title: `Add Card To Deck: ${title}` };
   }
   submit = () => {
-    const { title, card } = this.state;
-    helpers.addCardToDeck(title, card).then(() => {
-      this.props.addCard(title, card);
-      this.props.navigation.goBack();
-    }).catch (e => alert(e));
+    const { title } = this.props.navigation.state.params;
+    if (!title || title.length === 0) alert ('Invalid. Empty Title');
+    const { question, answer } = this.state;
+    if (!question || question.length === 0) alert('Invalid. No Question Provided');
+    if (!answer || answer.length === 0) alert('Invalid. No Answer Provided');
+    const { dataSource } = this.props;
+    if (!dataSource) alert ("The deck is empty. Can't add the question.");
+    let foundTitle = dataSource.filter(d => d.title === title);
+    if (foundTitle.length === 0) alert ("Title not found. Can't add the question.");
+    const ds = dataSource.map(d => {
+      if (d.title === title) {
+        if (!d.questions) return {...d, questions: [question]};
+        else {
+          const q = d.questions.filter(q => q.question === question.question);
+          if (q.length !== 0) alert('Invalid. Question already present');
+          else return {...d, questions: d.questions.concat(question)};
+        }
+      } else return d;
+    });
+    const card = {question: question, answer: answer};
+    this.props.addCard(title,card,helpers.addCardToDeck);
+    this.props.navigation.goBack();
   }
-  componentDidMount = () => this.setState(s =>
-    ({...s, title: this.props.navigation.state.params.title}));
 
   render = () => {
-    const { question, answer } = this.state.card;
+    const { question, answer } = this.state;
     return (<KeyboardAvoidingView behavior="padding" style={styles.container}>
       <View style={styles.vInput}>
         <TextInput
           placeholder='Question'
           style={styles.input}
           value={question}
-          onChangeText={question => this.setState(s =>
-            ({...s, card: {question : question, answer: s.card.answer}}))}
+        onChangeText={q => this.setState(s => ({...s, question : q}))}
         />
       </View>
       <View style={styles.vInput}>
@@ -51,8 +62,7 @@ class AddCard extends React.Component {
           placeholder='Response'
           style={styles.input}
           value={answer}
-          onChangeText={answer => this.setState(s =>
-            ({...s, card: {question: s.card.question, answer: answer}}))}
+          onChangeText={a => this.setState(s => ({...s, answer: a}))}
         />
       </View>
       <TouchableOpacity onPress={this.submit} style={styles.button}>
@@ -62,7 +72,8 @@ class AddCard extends React.Component {
   }
 }
 
-export default connect(null,{...addCardActions})(AddCard);
+const mapStateToProps = ({dataSource}) => ({dataSource});
+export default connect(mapStateToProps,{...addCardActions})(AddCard);
 
 const styles = StyleSheet.create({
   container: {

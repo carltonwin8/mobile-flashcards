@@ -36,7 +36,7 @@ class TestAsync extends React.Component {
     }
     helpers.saveDecks(data);
   }
-  getData() { helpers.getDecks().then(data => {console.log(data); }) }
+  getData() { helpers.getDecks().then(console.log) }
   saveDeckTitle(title) {
     helpers.saveDeckTitle(title).then(this.setState({title})).catch(e => alert(e));
   }

@@ -34,10 +34,10 @@ export function clearLocalNotification() {
     .then(Notifications.cancelAllScheduledNotificationsAsync);
 }
 
-function clearNotification() {
+function createNotification() {
   return {
-    title: 'Log your stats!',
-    body: "Don't forget to log your stats for today!",
+    title: 'Take A Quiz',
+    body: "Don't forget to do a deck quiz today!",
     ios: {
       sound: true,
     },
@@ -60,10 +60,10 @@ export function setLocalNotification() {
             if (status === 'granted') {
               Notifications.cancelAllScheduledNotificationsAsync();
               let tomorrow = new Date();
-              // tomorrow.setDate(tomorrow.getDate + 1);
-              // tomorrow.setHours(20);
-              // tomorrow.setMinutes(0);
-              tomorrow.setSeconds(tomorrow.getSeconds + 10)
+              tomorrow.setDate(tomorrow.getDate() + 1);
+              tomorrow.setHours(20);
+              tomorrow.setMinutes(0);
+              // tomorrow.setSeconds(tomorrow.getSeconds() + 10) // used during debug
               Notifications.scheduleLocalNotificationAsync(
                 createNotification(),
                 { time: tomorrow, repeat: 'day' }

@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 
 class Deck extends React.Component {
   static navigationOptions = ({ navigation }) => {
-    return { title: `${navigation.state.params.deck.title}` };
+    return { title: `Deck: ${navigation.state.params.deck.title}` };
   };
   quiz = () => {
     const decks = this.props.decks;
@@ -23,12 +23,14 @@ class Deck extends React.Component {
   }
   render = () => {
     const { title } = this.props.navigation.state.params.deck;
+    if (!this.props.decks) return null;
     const deck = this.props.decks.filter(d => d.title === title);
+    if (!deck || deck.length === 0) return null;
     const { questions } = deck[0];
     return (
       <KeyboardAvoidingView style={styles.container}>
         <View style={styles.text}>
-          <Text style={styles.deck}>{title}</Text>
+          <Text style={styles.deck}>Deck: {title}</Text>
           <Text style={styles.cards}>{questions ? questions.length : 0} cards</Text>
         </View>
         <View>

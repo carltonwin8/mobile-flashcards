@@ -17,10 +17,10 @@ export default class TestPush extends React.Component {
     return (
       <View style={styles.container}>
         <TouchableOpacity onPress={helpers.setLocalNotification}>
-          <Text>P Clear</Text>
+          <Text>Set P</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={helpers.clearLocalNotification}>
-          <Text>P Add</Text>
+          <Text>Clr P</Text>
         </TouchableOpacity>
       </View>
     );

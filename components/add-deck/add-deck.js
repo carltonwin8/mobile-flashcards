@@ -8,6 +8,7 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { NavigationActions } from 'react-navigation'
 
 import * as addDeckActions from './add-deck-actions';
 
@@ -24,7 +25,19 @@ class AddDeck extends React.Component {
       if (tmatch.length !== 0) return alert ('Deck title already used.');
     }
     this.props.addDeck(title);
-    this.props.navigation.goBack();
+    /*
+    const navigateAction = NavigationActions.navigate({
+      routeName: 'Home',
+      params: {},
+      action: NavigationActions.navigate({
+        routeName: 'Deck',
+        params: {deck: {title: title}},
+      })
+    })
+    console.log('new');
+    this.props.navigation.dispatch(navigateAction);
+    */
+    this.props.navigation.navigate('Deck', {deck: {title: title}});
   }
   render = () => {
     return (<KeyboardAvoidingView behavior="padding" style={styles.container}>
@@ -38,7 +51,7 @@ class AddDeck extends React.Component {
         />
       </View>
       <TouchableOpacity onPress={this.addDeck} style={styles.button}>
-        <Text style={styles.buttonText}>Submit</Text>
+        <Text style={styles.buttonText}>Create Deck</Text>
       </TouchableOpacity>
     </KeyboardAvoidingView>);
   }

@@ -53,7 +53,7 @@ class AddCard extends React.Component {
       </View>
       <View style={styles.vInput}>
         <TextInput
-          placeholder='Response'
+          placeholder='Answer'
           style={styles.input}
           value={answer}
           onChangeText={a => this.setState(s => ({...s, answer: a}))}

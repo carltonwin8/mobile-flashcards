@@ -20,6 +20,7 @@ import reducers from './reducers';
 
 import TestAsync from './tests/testasync';
 import TestPush from './tests/testpush';
+import * as helpers from './utils/helpers';
 
 function Statusbar({backgroundColor, ...props}) {
   return (<View style={{backgroundColor, height: Constants.statusBarHeight}} >
@@ -71,13 +72,14 @@ const middleware = applyMiddleware(thunk); // , createLogger()); // logger used 
 const store = createStore(reducers, middleware);
 
 export default class App extends React.Component {
+  componentDidMount = () => helpers.setLocalNotification();
   render = () => {
     return (
       <Provider store={store}>
         <View style={{flex: 1}}>
           <Statusbar backgroundColor='aqua' barStyle='light-content' />
-          {/* <TestAsync /> {/* used during debug */}
-          {/*<TestPush /> {/* used during debug */}
+          {/*TestAsync />*/}
+          {/*<TestPush />*/}
           <Navigator />
         </View>
       </Provider>

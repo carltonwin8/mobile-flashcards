@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import * as helpers from '../../utils/helpers';
 import * as addCardActions from './add-card-actions';
 
 class AddCard extends React.Component {
@@ -22,27 +21,22 @@ class AddCard extends React.Component {
     return { title: `Add Card To Deck: ${title}` };
   }
   submit = () => {
-    const { title } = this.props.navigation.state.params;
-    if (!title || title.length === 0) alert ('Invalid. Empty Title');
     const { question, answer } = this.state;
-    if (!question || question.length === 0) alert('Invalid. No Question Provided');
-    if (!answer || answer.length === 0) alert('Invalid. No Answer Provided');
-    const { dataSource } = this.props;
-    if (!dataSource) alert ("The deck is empty. Can't add the question.");
-    let foundTitle = dataSource.filter(d => d.title === title);
-    if (foundTitle.length === 0) alert ("Title not found. Can't add the question.");
-    const ds = dataSource.map(d => {
+    if (!question || question.length === 0 || !answer || answer.length === 0)
+      return alert('Invalid. Enter a Question And an Answer.');
+    const { decks } = this.props;
+    const { title } = this.props.navigation.state.params;
+    let questionAlreadyPresent = false;
+    decks.map(d => {
       if (d.title === title) {
-        if (!d.questions) return {...d, questions: [question]};
-        else {
-          const q = d.questions.filter(q => q.question === question.question);
-          if (q.length !== 0) alert('Invalid. Question already present');
-          else return {...d, questions: d.questions.concat(question)};
+        if (d.questions) {
+          const q = d.questions.filter(q => q.question === question);
+          if (q.length !== 0) questionAlreadyPresent = true;
         }
-      } else return d;
+      }
     });
-    const card = {question: question, answer: answer};
-    this.props.addCard(title,card,helpers.addCardToDeck);
+    if (questionAlreadyPresent) return alert('Invalid. Question already present');
+    this.props.addCard(title, question, answer);
     this.props.navigation.goBack();
   }
 
@@ -72,7 +66,7 @@ class AddCard extends React.Component {
   }
 }
 
-const mapStateToProps = ({dataSource}) => ({dataSource});
+const mapStateToProps = ({decks}) => ({decks});
 export default connect(mapStateToProps,{...addCardActions})(AddCard);
 
 const styles = StyleSheet.create({

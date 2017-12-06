@@ -1,34 +1,22 @@
-import { ADD_DECK } from './components/add-deck/add-deck-actionTypes';
-import { ADD_DECKS, CLEAR_DECKS } from './components/decks/decks-actionTypes';
-import { ADD_CARD } from './components/add-card/add-card-actionTypes';
+import { ADD_DECKS, CLEAR_DECKS } from './components/decks/decks-action-types';
+import { ADD_DECK } from './components/add-deck/add-deck-action-types';
+import { ADD_CARD } from './components/add-card/add-card-action-types';
 
-const initialState = { dataSource: [ ], };
-
-export default function entries(state=initialState, action) {
+export default function decks(state={}, action) {
   switch (action.type) {
-    case CLEAR_DECKS: return initialState;
+    case CLEAR_DECKS: return {}
+    case ADD_DECKS: return {...state, decks: action.decks ? action.decks : []}
     case ADD_DECK:
       const deck = {title: action.title, questons: []};
-      const ds = state.dataSource ? state.dataSource.concat(deck) : [deck];
-      return {...state, dataSource: ds}
-    case ADD_DECKS:
-      const ds1 = (action.decks && action.decks.dataSource)
-        ? action.decks.dataSource
-        : [];
-      return {...state, dataSource: ds1}
+      const ds = state.decks ? state.decks.concat(deck) : [deck];
+      return {...state, decks: ds}
     case ADD_CARD:
-      console.log('add card');
-      console.log(action);
-      const ds3 = state.dataSource.map(deck => {
+      const ds3 = state.decks.map(deck => {
         if (deck.title !== action.title) return deck;
         const questions = deck.questions.concat(action.card);
-        console.log(questions);
         return {...deck, questions : questions};
       });
-      console.log(ds3);
-      const res = {...state, dataSource: ds3 };
-      //action.addCardToDeck(res);
-      return res;
+      return {...state, decks: ds3 };
     default: return state;
   }
 }

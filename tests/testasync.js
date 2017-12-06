@@ -20,23 +20,6 @@ class TestAsync extends React.Component {
     text: null,
     title: null,
   }
-  saveData() {
-    const questions = [{
-      question: 'What is React?',
-      answer: 'A library for managing user interfaces'
-    }, {
-      question: 'Where do you make Ajax requests in React?',
-      answer: 'The componentDidMount lifecycle event'
-    }];
-    const data = {
-      dataSource: [
-        { title: 'deck 1', cards: '3', questions: questions },
-        { title: 'deck 2', cards: '8', questions: questions },
-      ],
-    }
-    helpers.saveDecks(data);
-  }
-  getData() { helpers.getDecks().then(console.log) }
   saveDeckTitle(title) {
     helpers.saveDeckTitle(title).then(this.setState({title})).catch(e => alert(e));
   }
@@ -44,21 +27,20 @@ class TestAsync extends React.Component {
     const q = { question: question, answer: question };
     helpers.addCardToDeck(title, q).catch(e => alert(e));
   }
-  removeDeck = () => helpers.removeDecks().then(this.props.clearDecks);
   render = () => {
     const {text, title} = this.state;
     return (
       <View style={styles.container}>
-        <TouchableOpacity onPress={this.removeDeck}>
+        <TouchableOpacity onPress={this.props.clearDecks}>
           <Text>Clear</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={this.getData}>
-          <Text>G All</Text>
+        <TouchableOpacity onPress={this.props.showDecks}>
+          <Text>Show</Text>
         </TouchableOpacity>
-        {/* <TouchableOpacity onPress={this.saveData}>
-          <Text>S All</Text>
+        <TouchableOpacity onPress={this.props.saveDefaultDecks}>
+          <Text>S dftls</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => this.saveDeckTitle(text)}>
+        {/*<TouchableOpacity onPress={() => this.saveDeckTitle(text)}>
           <Text>S Title</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => this.addCardToDeck(title, text)}>
@@ -77,7 +59,7 @@ class TestAsync extends React.Component {
   }
 }
 
-const mapStateToProps = ({dataSource}) => ({dataSource});
+const mapStateToProps = ({decks}) => ({decks});
 export default connect(mapStateToProps, {...decksActions})(TestAsync);
 
 const styles = StyleSheet.create({

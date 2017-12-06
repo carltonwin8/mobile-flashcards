@@ -18,19 +18,14 @@ class AddDeck extends React.Component {
   }
   addDeck = () => {
     const { title } = this.state;
-    if (!title || title.length === 0) return alert ('Invalid Empty Title');
-    const { dataSource } = this.props;
-    const deck = {title: title, questions: []};
-    if (!dataSource) ds = { "dataSource" : [deck]}
-    else {
-      const tmatch = dataSource.filter(d => d.title === title);
-      if (tmatch.length !== 0) return alert ('Title Already Used');
-      ds = dataSource.concat(deck);
+    if (!title || title.length === 0) return alert ('Invalid. Empty deck title.');
+    const { decks } = this.props;
+    if (decks && decks.length > 0) {
+      const tmatch = decks.filter(d => d.title === title);
+      if (tmatch.length !== 0) return alert ('Deck title already used.');
     }
-    helpers.saveDeckTitle({dataSource: ds}).then (() => {
-      this.props.addDeck(title);
-      this.props.navigation.goBack();
-    });
+    this.props.addDeck(title);
+    this.props.navigation.goBack();
   }
   render = () => {
     return (<KeyboardAvoidingView behavior="padding" style={styles.container}>
@@ -50,7 +45,7 @@ class AddDeck extends React.Component {
   }
 }
 
-const mapStateToProps = ({dataSource}) => ({dataSource});
+const mapStateToProps = ({decks}) => ({decks});
 export default connect(mapStateToProps,{...addDeckActions})(AddDeck);
 
 const styles = StyleSheet.create({

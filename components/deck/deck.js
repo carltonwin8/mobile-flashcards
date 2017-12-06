@@ -13,7 +13,7 @@ class Deck extends React.Component {
     return { title: `${navigation.state.params.deck.title}` };
   };
   quiz = () => {
-    const decks = this.props.dataSource;
+    const decks = this.props.decks;
     const { title } = this.props.navigation.state.params.deck;
     const deck = decks.filter(d => d.title === title)[0];
     const { questions } = deck;
@@ -23,7 +23,7 @@ class Deck extends React.Component {
   }
   render = () => {
     const { title } = this.props.navigation.state.params.deck;
-    const deck = this.props.dataSource.filter(d => d.title === title);
+    const deck = this.props.decks.filter(d => d.title === title);
     const { questions } = deck[0];
     return (
       <KeyboardAvoidingView style={styles.container}>
@@ -45,7 +45,7 @@ class Deck extends React.Component {
   }
 }
 
-const mapStateToProps = ({dataSource}) => ({dataSource});
+const mapStateToProps = ({decks}) => ({decks});
 export default connect(mapStateToProps)(Deck);
 
 const styles = StyleSheet.create({

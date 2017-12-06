@@ -12,14 +12,13 @@ import * as helpers from '../../utils/helpers';
 import * as decksActions from './decks-actions';
 
 class Decks extends React.Component {
-  componentDidMount = () =>
-    helpers.getDecks().then(this.props.addDecks).catch (e => alert(e));
+  componentDidMount = () => this.props.getDecks();
   render = () => {
-    if (this.props.dataSource && this.props.dataSource.length > 0) {
+    if (this.props.decks && this.props.decks.length > 0) {
       return (
         <View style={styles.container}>
           <FlatList
-            data={this.props.dataSource}
+            data={this.props.decks}
             renderItem={({item}) =>
               <RowData deck={item} pressed={() =>
                 this.props.navigation.navigate('Deck', {deck: item})}/>}
@@ -43,7 +42,7 @@ class Decks extends React.Component {
   }
 }
 
-const mapStateToProps = ({dataSource}) => ({dataSource});
+const mapStateToProps = ({decks}) => ({decks});
 export default connect(mapStateToProps, {...decksActions})(Decks);
 
 function RowData({deck, pressed}) {

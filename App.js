@@ -6,8 +6,10 @@ import {
 } from 'react-native';
 import { StackNavigator, TabNavigator } from 'react-navigation';
 import { Constants } from 'expo';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+import { createLogger } from 'redux-logger';
 
 import Decks from './components/decks/decks';
 import AddDeck from './components/add-deck/add-deck';
@@ -63,13 +65,16 @@ const Navigator = StackNavigator({
   },
 });
 
+const middleware = applyMiddleware(thunk, createLogger());
+const store = createStore(reducers, middleware);
+
 export default class App extends React.Component {
   render = () => {
     return (
-      <Provider store={createStore(reducers)}>
+      <Provider store={store}>
         <View style={{flex: 1}}>
           <Statusbar backgroundColor='aqua' barStyle='light-content' />
-          <TestAsync />
+          {/* <TestAsync /> {/* used during debug */}
           <Navigator />
         </View>
       </Provider>

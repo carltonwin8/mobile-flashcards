@@ -16,8 +16,10 @@ import AddDeck from './components/add-deck/add-deck';
 import Deck from './components/deck/deck';
 import AddCard from './components/add-card/add-card';
 import Quiz from './components/quiz/quiz';
-import TestAsync from './tests/testasync';
 import reducers from './reducers';
+
+import TestAsync from './tests/testasync';
+import TestPush from './tests/testpush';
 
 function Statusbar({backgroundColor, ...props}) {
   return (<View style={{backgroundColor, height: Constants.statusBarHeight}} >
@@ -65,7 +67,7 @@ const Navigator = StackNavigator({
   },
 });
 
-const middleware = applyMiddleware(thunk, createLogger());
+const middleware = applyMiddleware(thunk); // , createLogger()); // logger used during debug
 const store = createStore(reducers, middleware);
 
 export default class App extends React.Component {
@@ -75,6 +77,7 @@ export default class App extends React.Component {
         <View style={{flex: 1}}>
           <Statusbar backgroundColor='aqua' barStyle='light-content' />
           {/* <TestAsync /> {/* used during debug */}
+          {/*<TestPush /> {/* used during debug */}
           <Navigator />
         </View>
       </Provider>

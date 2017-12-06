@@ -35,7 +35,7 @@ class AddCard extends React.Component {
         }
       }
     });
-    if (questionAlreadyPresent) return alert('Invalid. Question already present');
+    if (questionAlreadyPresent) return alert('Invalid. Question already present.');
     this.props.addCard(title, question, answer);
     this.props.navigation.goBack();
   }

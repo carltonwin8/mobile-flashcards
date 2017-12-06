@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import * as helpers from '../../utils/helpers';
 import * as decksActions from './decks-actions';
 
 class Decks extends React.Component {

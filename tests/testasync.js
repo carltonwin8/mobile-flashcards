@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import * as helpers from '../utils/helpers';
 import * as decksActions from '../components/decks/decks-actions';
 
 /**
@@ -21,11 +20,9 @@ class TestAsync extends React.Component {
     title: null,
   }
   saveDeckTitle(title) {
-    helpers.saveDeckTitle(title).then(this.setState({title})).catch(e => alert(e));
   }
   addCardToDeck(title, question) {
     const q = { question: question, answer: question };
-    helpers.addCardToDeck(title, q).catch(e => alert(e));
   }
   render = () => {
     const {text, title} = this.state;

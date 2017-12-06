@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import * as helpers from '../../utils/helpers';
 import * as addDeckActions from './add-deck-actions';
 
 class AddDeck extends React.Component {

@@ -19,7 +19,7 @@ To run the application:
 
 MIT Licensed
 
-## File Naming Convention
+## File Naming Convention - Rant
 In a react application I use hyphenated filenames for the reasons provided below.
 
 ### NPM

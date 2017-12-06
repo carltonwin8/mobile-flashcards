@@ -37,8 +37,11 @@ class AddDeck extends React.Component {
     console.log('new');
     this.props.navigation.dispatch(navigateAction);
     */
-    //this.props.navigation.navigate('Deck', {deck: {title: title}});
-    this.props.navigation.goBack();
+    this.props.navigation.navigate('Deck', {deck: {title: title}});
+    // i like the below better than the above but the second reviewer wanted the above.
+    // the first reviewer was ok with the below code
+    // waiting for the third reviewer 
+    //this.props.navigation.goBack();
   }
   render = () => {
     return (<KeyboardAvoidingView behavior="padding" style={styles.container}>
